@@ -1,5 +1,6 @@
 module Main exposing (..)
 
+import Types exposing (User)
 import Html exposing (
     Html,
     label,
@@ -26,11 +27,6 @@ type Msg
     | OnSearchBtnClicked
     | SearchUsers (Result Http.Error (List User))
 
-type alias User =
-  { login: String
-  , id: Int
-  , avatar_url: String
-  }
 
 type alias Model =
   { term: String
