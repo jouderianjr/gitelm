@@ -13,8 +13,9 @@ import Html exposing (
     figure,
     img,
     p,
+    a,
     program)
-import Html.Attributes exposing (class, disabled, src)
+import Html.Attributes exposing (class, disabled, src, href, target)
 import Html.Events exposing (onInput, onClick)
 import String exposing (isEmpty)
 import List exposing (repeat, map)
@@ -75,7 +76,7 @@ renderUsers users =
   map renderUserCard users
 
 renderUserCard : User -> Html Msg
-renderUserCard {login, avatar_url} =
+renderUserCard {login, avatar_url, html_url} =
   div [ class "card" ]
     [ div [ class "card-content" ]
         [ div [ class "media"]
@@ -84,7 +85,11 @@ renderUserCard {login, avatar_url} =
                     [ img [ src avatar_url ] [] ]
                 ]
             , div [ class "media-content" ]
-                [ p [ class "is-title is-4" ] [ text ("@" ++ login) ] ]
+                [ a
+                  [ class "is-title is-4"
+                  , href html_url
+                  , target "_blank"
+                  ] [ text ("@" ++ login) ] ]
             ]
         ]
     ]
@@ -112,6 +117,8 @@ userDecoder =
       |: (field "login" string)
       |: (field "id" int)
       |: (field "avatar_url" string)
+      |: (field "html_url" string)
+      |: (field "url" string)
 
 subscriptions : Model -> Sub Msg
 subscriptions model = Sub.none
