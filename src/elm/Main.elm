@@ -24,7 +24,7 @@ import Json.Decode.Extra exposing ((|:))
 type Msg
     = OnTermChanged String
     | OnSearchBtnClicked
-    | SearchUsers (Result Http.Error Users)
+    | SearchUsers (Result Http.Error (List User))
 
 type alias User =
   { login: String
@@ -32,14 +32,12 @@ type alias User =
   , avatar_url: String
   }
 
-type alias Users = {items : List User}
-
 type alias Model =
   { term: String
   , isSearchBtnDisabled : Bool
   , isLoading: Bool
   , isRequestFailed: Bool
-  , users: Users
+  , users: List User
   }
 
 model =
@@ -47,7 +45,7 @@ model =
   , isSearchBtnDisabled = True
   , isLoading = False
   , isRequestFailed = False
-  , users = {items = []}
+  , users = []
   }
 
 searchBox : Model -> Html Msg
@@ -105,13 +103,11 @@ searchUsers term =
   let
     url = "https://api.github.com/search/users?q=" ++ term
   in
-    Http.send SearchUsers (Http.get url decodeData)
+    Http.send SearchUsers (Http.get url dataDecoder)
 
-decodeData : Decoder Users
-decodeData =
-  succeed
-    Users
-      |: (field "items" (list userDecoder))
+dataDecoder : Decoder (List User)
+dataDecoder =
+    field "items" (list userDecoder)
 
 userDecoder : Decoder User
 userDecoder =
@@ -132,7 +128,7 @@ view model =
   mainPage
     [ header
     , searchBox model
-    , div [ class "section" ] ( renderUsers model.users.items )
+    , div [ class "section" ] ( renderUsers model.users )
     ]
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -144,11 +140,11 @@ update msg model =
       else
         ({ model | term = newTerm, isSearchBtnDisabled = False }, Cmd.none)
     OnSearchBtnClicked ->
-      ({ model | isLoading = True }, searchUsers model.term)
-    SearchUsers (Ok s) ->
-      ({ model | isLoading = False, users = s }, Cmd.none)
+      ({ model | isLoading = True, users = [] }, searchUsers model.term)
+    SearchUsers (Ok users) ->
+      ({ model | isLoading = False, users = users }, Cmd.none)
     SearchUsers (Err _) ->
-    ({ model | isLoading = False }, Cmd.none)
+    ({ model | isLoading = False, users = [] }, Cmd.none)
 
 main = program
   { init = init
