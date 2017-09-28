@@ -15,6 +15,9 @@ import Html exposing (
     p,
     a,
     form,
+    nav,
+    h6,
+    i,
     program)
 import Html.Attributes exposing (class, disabled, src, href, target, value)
 import Html.Events exposing (onInput, onClick, onSubmit)
@@ -46,6 +49,26 @@ model =
   , isRequestFailed = False
   , users = []
   }
+
+navbar : Html Msg
+navbar =
+  nav
+    [ class "navbar is-dark" ]
+    [ div
+      [ class "navbar-brand" ]
+      [ div
+        [ class "navbar-item" ]
+        [ h6
+          [ class "is-size-3 content"]
+          [ p []
+            [ i [ class "fa fa-github" ] []
+            , text "itElm"
+            ]
+          ]
+        ]
+      ]
+    ]
+
 
 searchBox : Model -> Html Msg
 searchBox {isLoading, isSearchBtnDisabled, term} =
@@ -115,8 +138,11 @@ renderUserCard {login, avatar_url, html_url} =
 
 mainPage : List (Html Msg) -> Html Msg
 mainPage children =
-  section [ class "section" ]
-    [ div [ class "container" ] children ]
+  div []
+    [ navbar
+    , section [ class "section" ]
+      [ div [ class "container" ] children ]
+    ]
 
 searchUsers : String -> Cmd Msg
 searchUsers term =
@@ -148,8 +174,7 @@ init = ( model , Cmd.none )
 view : Model -> Html Msg
 view model =
   mainPage
-    [ header
-    , searchBox model
+    [ searchBox model
     , div [ class "section" ] ( renderUsers model.users )
     ]
 
