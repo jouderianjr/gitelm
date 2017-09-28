@@ -49,7 +49,7 @@ model =
 
 searchBox : Model -> Html Msg
 searchBox {isLoading, isSearchBtnDisabled, term} =
-  div []
+  div [ class "box" ]
     [ form
       [ class "field"
       , onSubmit OnSearchBtnClicked
