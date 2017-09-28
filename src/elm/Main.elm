@@ -16,7 +16,7 @@ import Html exposing (
     a,
     form,
     program)
-import Html.Attributes exposing (class, disabled, src, href, target)
+import Html.Attributes exposing (class, disabled, src, href, target, value)
 import Html.Events exposing (onInput, onClick, onSubmit)
 import String exposing (isEmpty)
 import List exposing (repeat, map)
@@ -27,6 +27,7 @@ import Json.Decode.Extra exposing ((|:))
 type Msg
     = OnTermChanged String
     | OnSearchBtnClicked
+    | OnClearBtnClicked
     | SearchUsers (Result Http.Error (List User))
 
 
@@ -47,32 +48,45 @@ model =
   }
 
 searchBox : Model -> Html Msg
-searchBox {isLoading, isSearchBtnDisabled} =
+searchBox {isLoading, isSearchBtnDisabled, term} =
   div []
     [ form
       [ class "field"
       , onSubmit OnSearchBtnClicked
       ]
-
       [ label [class "label"] [text "Digite o nome do usuário"]
-      , input
-        [ class "input"
-        , onInput OnTermChanged
-        , disabled isLoading
+      , div [ class "control" ]
+        [ input
+          [ class "input"
+          , onInput OnTermChanged
+          , disabled isLoading
+          , value term
+          ]
+          []
         ]
-        []
       ]
-    , button
-        [ class (searchBtnClasses isLoading)
-        , onClick OnSearchBtnClicked
-        , disabled isSearchBtnDisabled
+    , div [ class "field is-grouped"]
+      [ div [ class "control" ]
+        [ button
+          [ class (searchBtnClasses isLoading)
+          , onClick OnSearchBtnClicked
+          , disabled isSearchBtnDisabled
+          ]
+          [text "Procurar"]
         ]
-        [text "Procurar"]
+      , div [ class "control" ]
+        [ button
+          [ class "button is-danger is-medium"
+          , onClick OnClearBtnClicked
+          ]
+          [ text "Limpar" ]
+        ]
+      ]
     ]
 
 searchBtnClasses : Bool -> String
 searchBtnClasses isLoading =
-  if isLoading then "button is-primary is-large is-loading" else "button is-primary is-large"
+  if isLoading then "button is-primary is-medium is-loading" else "button is-primary is-medium"
 
 header = h1 [class "title is-1 has-text-centered"] [ text "Gitelm" ]
 
@@ -147,6 +161,8 @@ update msg model =
         ({ model | term = newTerm, isSearchBtnDisabled = True }, Cmd.none )
       else
         ({ model | term = newTerm, isSearchBtnDisabled = False }, Cmd.none)
+    OnClearBtnClicked ->
+      ({ model | term = "", users = [] }, Cmd.none)
     OnSearchBtnClicked ->
       ({ model | isLoading = True, users = [] }, searchUsers model.term)
     SearchUsers (Ok users) ->
