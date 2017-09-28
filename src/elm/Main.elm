@@ -14,9 +14,10 @@ import Html exposing (
     img,
     p,
     a,
+    form,
     program)
 import Html.Attributes exposing (class, disabled, src, href, target)
-import Html.Events exposing (onInput, onClick)
+import Html.Events exposing (onInput, onClick, onSubmit)
 import String exposing (isEmpty)
 import List exposing (repeat, map)
 import Http
@@ -48,7 +49,11 @@ model =
 searchBox : Model -> Html Msg
 searchBox {isLoading, isSearchBtnDisabled} =
   div []
-    [ div [ class "field" ]
+    [ form
+      [ class "field"
+      , onSubmit OnSearchBtnClicked
+      ]
+
       [ label [class "label"] [text "Digite o nome do usuário"]
       , input
         [ class "input"
