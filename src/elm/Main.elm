@@ -10,6 +10,7 @@ import Html exposing (
     section,
     button,
     h1,
+    h2,
     figure,
     img,
     p,
@@ -18,6 +19,7 @@ import Html exposing (
     nav,
     h6,
     i,
+    span,
     program)
 import Html.Attributes exposing (class, disabled, src, href, target, value)
 import Html.Events exposing (onInput, onClick, onSubmit)
@@ -31,13 +33,15 @@ type Msg
     = OnTermChanged String
     | OnSearchBtnClicked
     | OnClearBtnClicked
+    | OnShowAboutModalClicked
+    | OnCloseAboutModalClicked
     | SearchUsers (Result Http.Error (List User))
-
 
 type alias Model =
   { term: String
   , isSearchBtnDisabled : Bool
   , isLoading: Bool
+  , isShowingAboutModal: Bool
   , isRequestFailed: Bool
   , users: List User
   }
@@ -47,6 +51,7 @@ model =
   { term = ""
   , isSearchBtnDisabled = True
   , isLoading = False
+  , isShowingAboutModal = False 
   , isRequestFailed = False
   , users = []
   }
@@ -65,6 +70,17 @@ navbar =
             [ i [ class "fa fa-github" ] []
             , text "itElm"
             ]
+          ]
+        ]
+      ]
+    , div [ class "navbar-menu" ]
+      [ div [ class "navbar-end" ]
+        [ div [ class "navbar-item" ]
+          [ button
+            [ class "button is-outlined is-white"
+            , onClick OnShowAboutModalClicked
+            ]
+            [ text "About" ]
           ]
         ]
       ]
@@ -141,10 +157,11 @@ renderUserCard {login, avatar_url, html_url} =
         ]
     ]
 
-mainPage : List (Html Msg) -> Html Msg
-mainPage children =
+mainPage : Model -> List (Html Msg) -> Html Msg
+mainPage model children =
   div []
-    [ navbar
+    [ aboutModal model
+    , navbar
     , section [ class "section" ]
       [ div [ class "container" ] children ]
     ]
@@ -170,6 +187,64 @@ userDecoder =
       |: (field "html_url" string)
       |: (field "url" string)
 
+aboutModal : Model -> Html Msg
+aboutModal {isShowingAboutModal} =
+  let
+    animationClass =
+      if isShowingAboutModal then " show" else ""
+  in
+    div [ class ("about-modal" ++ animationClass) ]
+      [ button
+        [ class "button is-outlined is-white is-large close-button is-pulled-right"
+        , onClick OnCloseAboutModalClicked
+        ]
+        [ i [ class " fa fa-close"] [] ]
+      , div [ class "section is-clearfix" ]
+        [ div [ class "" ]
+          [ p [ class "title is-1 has-text-warning" ] [text "Do you like it?"]
+          , p [ class "answer title is-2 has-text-primary" ] [text "This was built using Elm"]
+          , p [ class "title is-1 has-text-warning" ] [text "Would like to see the code?"]
+          , p [ class "title"]
+            [ a
+              [ class "answer title is-2 has-text-primary"
+              , href "https://github.com/jouderianjr/gitelm"
+              ]
+              [ text "https://github.com/jouderianjr/gitelm" ]
+            ]
+          , p [ class "title is-1 has-text-warning" ] [text "Who built it?"]
+          , a
+            [ href "http://www.github.com/jouderianjr"
+            , target "_blank"
+            , class "who-built-it"
+            ]
+            [ img
+              [ src "https://avatars2.githubusercontent.com/u/1559013?v=4"
+              , class "answer image is-64x64"
+              ]
+              []
+            , i [class "who-built-it-icon has-text-primary is-1 fa fa-hand-o-left"] []
+            , span [ class "who-built-it-text title is-3 has-text-primary" ] [ text "Click here" ]
+            ]
+          ]
+        ]
+      , div [ class "section" ]
+        [ div [ class "columns" ]
+          [ div [class "column"]
+            [ h2 [ class "title is-2 has-text-warning has-text-centered" ] [text "Pay me a coffe!"]
+            , a
+              [ href "http://ko-fi.com/jouderianjr"
+              , target "_blank"
+              ]
+              [ i [ class "donate-icon fa fa-coffee has-text-primary"] [] ]
+            ]
+          , div [class "column"]
+            [ h2 [ class "title is-2 has-text-warning has-text-centered" ] [text "Send me Bitcoins!"]
+            , p [ class "btc-address has-text-primary" ] [ text "1FLq2BAhF9esFYxWy2NHLL3urK6jUb1n1N" ]
+            ]
+          ]
+        ]
+      ]
+
 subscriptions : Model -> Sub Msg
 subscriptions model = Sub.none
 
@@ -178,7 +253,7 @@ init = ( model , Cmd.none )
 
 view : Model -> Html Msg
 view model =
-  mainPage
+  mainPage model
     [ searchBox model
     , div [ class "section" ] ( renderUsers model.users )
     ]
@@ -195,10 +270,14 @@ update msg model =
       ({ model | term = "", users = [] }, Cmd.none)
     OnSearchBtnClicked ->
       ({ model | isLoading = True, users = [] }, searchUsers model.term)
+    OnShowAboutModalClicked ->
+      ({model | isShowingAboutModal = True }, Cmd.none)
+    OnCloseAboutModalClicked ->
+      ({model | isShowingAboutModal = False }, Cmd.none)
     SearchUsers (Ok users) ->
       ({ model | isLoading = False, users = users }, Cmd.none)
     SearchUsers (Err _) ->
-    ({ model | isLoading = False, users = [] }, Cmd.none)
+      ({ model | isLoading = False, users = [] }, Cmd.none)
 
 main : Program Never Model Msg
 main = program

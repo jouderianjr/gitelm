@@ -1,4 +1,80 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bulma/bulma.sass';
 
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.about-modal {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  height: 100vh;
+  width: 100vw;
+  background-color: $grey-darker;
+  transform: translateY(-100%);
+  transition: transform 600ms cubic-bezier(0.895, 0.03, 0.685, 0.22);
+
+  .close-button {
+    margin-top: 2rem;
+    margin-right: 2rem;
+  }
+
+  .answer {
+     margin-left: 2rem;
+  }
+
+  .answer.image {
+    display: inline;
+    border-radius: 50%;
+  }
+
+  .donate-icon {
+    display: flex;
+    justify-content: center;
+    font-size: 60px;
+  }
+
+  .btc-address {
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+  }
+
+  .who-built-it {
+    display: flex;
+    flex: 1;
+
+    .who-built-it-icon {
+      font-size: 32px;
+      line-height: 64px;
+      margin-left: 16px;
+      animation: blink 1.5s infinite;
+    }
+
+    .who-built-it-text {
+      line-height: 64px;
+      align-self: center;
+      margin-left: 16px;
+      animation: blink 1.5s infinite;
+    }
+  }
+}
+
+.show {
+  transform: translateY(0%);
+  transition: transform 600ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+
 // can add Boostrap overrides, additional Sass/CSS below...
