@@ -109,7 +109,7 @@ searchBox {isLoading, isSearchBtnDisabled, term} =
 
 searchBtnClasses : Bool -> String
 searchBtnClasses isLoading =
-  if isLoading then "button is-primary is-medium is-loading" else "button is-primary is-medium"
+  if isLoading then "button is-dark is-medium is-loading" else "button is-dark is-medium"
 
 header = h1 [class "title is-1 has-text-centered"] [ text "Gitelm" ]
 
