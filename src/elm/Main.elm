@@ -42,6 +42,7 @@ type alias Model =
   , users: List User
   }
 
+model : Model
 model =
   { term = ""
   , isSearchBtnDisabled = True
@@ -112,8 +113,9 @@ searchBtnClasses isLoading =
   let
     defaultClasses = "button is-dark is-medium"
   in
-    if isLoading then defaultClasses ++ " is-loading" else defaultClasses 
+    if isLoading then defaultClasses ++ " is-loading" else defaultClasses
 
+header : Html msg
 header = h1 [class "title is-1 has-text-centered"] [ text "Gitelm" ]
 
 renderUsers : List User -> List (Html Msg)
@@ -198,6 +200,7 @@ update msg model =
     SearchUsers (Err _) ->
     ({ model | isLoading = False, users = [] }, Cmd.none)
 
+main : Program Never Model Msg
 main = program
   { init = init
   , view = view
