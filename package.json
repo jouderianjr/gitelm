@@ -1,12 +1,12 @@
 {
-  "name": "elm-webpack-starter",
-  "description": "Webpack setup for writing Elm apps",
+  "name": "GitElm",
+  "description": "Just a elm project using github api",
   "version": "0.8.6",
   "license": "MIT",
-  "author": "Peter Morawiec",
+  "author": "Jouderia Nobre",
   "repository": {
     "type": "git",
-    "url": "https://github.com/moarwick/elm-webpack-starter"
+    "url": "https://github.com/jouderianjr/gitelm"
   },
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
