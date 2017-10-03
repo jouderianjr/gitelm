@@ -51,7 +51,7 @@ model =
   { term = ""
   , isSearchBtnDisabled = True
   , isLoading = False
-  , isShowingAboutModal = False 
+  , isShowingAboutModal = False
   , isRequestFailed = False
   , users = []
   }
@@ -94,7 +94,7 @@ searchBox {isLoading, isSearchBtnDisabled, term} =
       [ class "field"
       , onSubmit OnSearchBtnClicked
       ]
-      [ label [class "label"] [text "Digite o nome do usuário"]
+      [ label [class "label"] [text "Search GitHub user"]
       , div [ class "control" ]
         [ input
           [ class "input"
@@ -112,14 +112,14 @@ searchBox {isLoading, isSearchBtnDisabled, term} =
           , onClick OnSearchBtnClicked
           , disabled isSearchBtnDisabled
           ]
-          [text "Procurar"]
+          [text "Search"]
         ]
       , div [ class "control" ]
         [ button
           [ class "button is-danger is-medium"
           , onClick OnClearBtnClicked
           ]
-          [ text "Limpar" ]
+          [ text "Clear" ]
         ]
       ]
     ]
