@@ -230,7 +230,7 @@ aboutModal {isShowingAboutModal} =
       , div [ class "container" ]
         [ div [ class "columns" ]
           [ div [class "column"]
-            [ h2 [ class "title is-2 has-text-warning has-text-centered" ] [text "Pay me a coffe!"]
+            [ h2 [ class "title is-2 has-text-warning has-text-centered" ] [text "Pay me a coffee!"]
             , a
               [ href "http://ko-fi.com/jouderianjr"
               , target "_blank"
