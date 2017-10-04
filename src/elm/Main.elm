@@ -227,7 +227,7 @@ aboutModal {isShowingAboutModal} =
             ]
           ]
         ]
-      , div [ class "section" ]
+      , div [ class "container" ]
         [ div [ class "columns" ]
           [ div [class "column"]
             [ h2 [ class "title is-2 has-text-warning has-text-centered" ] [text "Pay me a coffe!"]
