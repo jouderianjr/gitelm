@@ -201,17 +201,17 @@ aboutModal {isShowingAboutModal} =
         [ i [ class " fa fa-close"] [] ]
       , div [ class "section is-clearfix" ]
         [ div [ class "" ]
-          [ p [ class "title is-1 has-text-warning" ] [text "Do you like it?"]
-          , p [ class "answer title is-2 has-text-primary" ] [text "This was built using Elm"]
-          , p [ class "title is-1 has-text-warning" ] [text "Would like to see the code?"]
+          [ p [ class "title is-2 has-text-warning" ] [text "Do you like it?"]
+          , p [ class "answer title is-3 has-text-primary" ] [text "This was built using Elm"]
+          , p [ class "title is-2 has-text-warning" ] [text "Would like to see the code?"]
           , p [ class "title"]
             [ a
-              [ class "answer title is-2 has-text-primary"
+              [ class "answer title is-3 has-text-primary"
               , href "https://github.com/jouderianjr/gitelm"
               ]
               [ text "https://github.com/jouderianjr/gitelm" ]
             ]
-          , p [ class "title is-1 has-text-warning" ] [text "Who built it?"]
+          , p [ class "title is-2 has-text-warning" ] [text "Who built it?"]
           , a
             [ href "http://www.github.com/jouderianjr"
             , target "_blank"
@@ -222,7 +222,7 @@ aboutModal {isShowingAboutModal} =
               , class "answer image is-64x64"
               ]
               []
-            , i [class "who-built-it-icon has-text-primary is-1 fa fa-hand-o-left"] []
+            , i [class "who-built-it-icon has-text-primary is-2 fa fa-hand-o-left"] []
             , span [ class "who-built-it-text title is-3 has-text-primary" ] [ text "Click here" ]
             ]
           ]
@@ -230,7 +230,7 @@ aboutModal {isShowingAboutModal} =
       , div [ class "container" ]
         [ div [ class "columns" ]
           [ div [class "column"]
-            [ h2 [ class "title is-2 has-text-warning has-text-centered" ] [text "Pay me a coffee!"]
+            [ h2 [ class "title is-3 has-text-warning has-text-centered" ] [text "Pay me a coffee!"]
             , a
               [ href "http://ko-fi.com/jouderianjr"
               , target "_blank"
@@ -238,7 +238,7 @@ aboutModal {isShowingAboutModal} =
               [ i [ class "donate-icon fa fa-coffee has-text-primary"] [] ]
             ]
           , div [class "column"]
-            [ h2 [ class "title is-2 has-text-warning has-text-centered" ] [text "Send me Bitcoins!"]
+            [ h2 [ class "title is-3 has-text-warning has-text-centered" ] [text "Send me Bitcoins!"]
             , p [ class "btc-address has-text-primary" ] [ text "1FLq2BAhF9esFYxWy2NHLL3urK6jUb1n1N" ]
             ]
           ]
